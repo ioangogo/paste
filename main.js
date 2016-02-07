@@ -140,8 +140,31 @@ app.get('/', function(req, res){
 });
 
 app.get('/paste/body', function(req, res){
+    var data = "";
     var responseString = "";
-    res.end('Click a button to preceed');
+    res.write('<html><p align=center> <b>Welcome to Linux-toys Paste!</b></p>'
+        + '<p align=left><b>Recent Pastes:</b>'
+        );
+       mysql_connection.getConnection(function(err,connection) {
+        mysql_connection.query('select * from paste;', function(err, rows) { 
+            if (!err)  {
+                data = rows;
+            }else {
+                data =  "An error has occurred.";
+                console.log(err);
+            }
+            connection.release();
+            for (var i in data){
+                 res.write(
+                '<li><a href="' + site_name + '/show?id=' + data[i].id + '&Submit=View">'
+                + data[i].id
+                + '</a></li>'
+                );
+            }
+            res.end('</html>');
+        });
+    });
+
 });
 
 
