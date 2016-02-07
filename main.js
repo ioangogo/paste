@@ -82,7 +82,7 @@ var end_share_mesage = ( '</div></p></body></html>'
 );
 
 
-app.get('/paste', function(req, res){
+app.get('/paste/newpaste', function(req, res){
     var paste_data = req.query['text'];
     var length = 10;
     var id = "";
@@ -105,13 +105,13 @@ app.get('/paste', function(req, res){
     res.end(begin_share_message + '<h3 class="ui-widget-header">Your paste is ready to share!</h3>'+ 'Your paste is available here:<br><br><a href="' + site_name + '/show?id=' + id + '">' + site_name  + '/show?id=' + id + '</a>' + end_share_mesage);
 });
 
-app.get('/new', function(req, res){
+app.get('/paste/new', function(req, res){
     var responseString = "";
     res.sendFile(__dirname + '/new.html');
 });
 
 
-app.get('/show', function(req, res){
+app.get('/paste/show', function(req, res){
     var id = req.query['id'];
     data = "";
     mysql_connection.getConnection(function(err,connection) {
@@ -130,7 +130,7 @@ app.get('/show', function(req, res){
 });
 
 
-app.get('/login', function(req, res){
+app.get('/paste/login', function(req, res){
     var responseString = "";
     res.sendFile(__dirname + '/login.html');
 });
@@ -141,13 +141,13 @@ app.get('/', function(req, res){
     res.sendFile(__dirname + '/index.html');
 });
 
-app.get('/body', function(req, res){
+app.get('/paste/body', function(req, res){
     var responseString = "";
     res.end('Click a button to preceed');
 });
 
 
-app.get('/logo.png', function(req, res){
+app.get('/paste/logo.png', function(req, res){
     res.sendFile(__dirname + '/logo.png');
 });
 
