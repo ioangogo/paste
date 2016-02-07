@@ -8,7 +8,7 @@ A simple pastebin clone written in Node.js. It requires a MySQL backend.
 
 After this repository is cloned, modify the Dockerfile and replace "my-docker-machine-ip" with your Docker Machine IP. Keep the /paste.
 ```
-ENV SITE_NAME "https://my-docker-machine-ip/paste"
+ENV SITE_NAME "http://my-docker-machine-ip/paste"
 ```
 Next, you can spin up the application with a test database with the docker-compose.yml file.
 
