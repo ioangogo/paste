@@ -28,7 +28,7 @@ When complete, you can login with your browser to http://docker-machine-ip/paste
 curl http://docker-machine-ip/paste/newpaste?text=Hello
 ```
 
-# Viewing pastes with curl using a paste ID
+# Viewing pastes with curl using a paste id
 ```
 curl http://docker-machine-ip/paste/show?id=XXXXXXXXXX
 ```
