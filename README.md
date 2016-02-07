@@ -32,3 +32,7 @@ curl http://docker-machine-ip/paste/newpaste?text=Hello
 ```
 curl http://docker-machine-ip/paste/show?id=XXXXXXXXXX
 ```
+# Deleting a paste with curl using a paste id
+```
+curl http://docker-machine-ip/paste/delete?id=XXXXXXXXXX
+```
