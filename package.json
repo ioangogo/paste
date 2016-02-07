@@ -4,7 +4,6 @@
   "dependencies": {
     "express": "latest",
     "mysql": "latest",
-    "request-debug": "",
     "jquery": ""
   }
 }

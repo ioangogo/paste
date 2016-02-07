@@ -2,7 +2,6 @@ var http = require('http');
 var express = require('express');
 var request = require('request');
 var mysql = require('mysql');
-require('request-debug')(request);
 var port = process.env.PORT;
 var app = express();
 var server = require("http").createServer(app);
@@ -26,7 +25,7 @@ function createtable_async(data) {
 
 function createdb(callback){
     mysql_connection_create.getConnection(function(err,connection) {
-     mysql_connection_create.query("create database " + database + ";", function(err, rows) {
+       mysql_connection_create.query("create database " + database + ";", function(err, rows) {
         if(err) {
             console.log('Error creating database', err);
         }
@@ -34,7 +33,7 @@ function createdb(callback){
         createtable(createtable_async);
         callback('Creating Database.....');
     });
- });
+   });
 }
 
 function createtable(callback){
@@ -70,8 +69,8 @@ var begin_share_message = ( '<html> <head> <link rel="stylesheet" href="//code.j
     + '<link rel="stylesheet" href="/resources/demos/style.css">'
     + '<script>'
     + ' $(function() {'
-     + '      $( "#dialog" ).dialog();'
-     + '  });'
+       + '      $( "#dialog" ).dialog();'
+       + '  });'
 + ' </script>'
 + '</head>'
 + '<body>'
@@ -79,13 +78,19 @@ var begin_share_message = ( '<html> <head> <link rel="stylesheet" href="//code.j
 );
 
 var end_share_mesage = ( '</div></p></body></html>'
-);
+    );
 
 
 app.get('/paste/newpaste', function(req, res){
     var paste_data = req.query['text'];
+    var temp_paste_data = "";
     var length = 10;
     var id = "";
+
+    if(paste_data.indexOf('\'') != -1){
+        temp_paste_data = paste_data.replace(/\'/g,"\\\'");
+        paste_date = temp_paste_data;
+    }
 
     var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
     for(var i = 0; i < length; i++) {
@@ -101,7 +106,7 @@ app.get('/paste/newpaste', function(req, res){
             connection.release();
         });
     });
-  
+
     res.end(begin_share_message + '<h3 class="ui-widget-header">Your paste is ready to share!</h3>'+ 'Your paste is available here:<br><br><a href="' + site_name + '/show?id=' + id + '">' + site_name  + '/show?id=' + id + '</a>' + end_share_mesage);
 });
 
