@@ -20,6 +20,6 @@ When complete, you can login with your browser to http://docker-machine-ip/paste
 
 # Pasting with curl from the terminal
 ```
-curl http://docker-machine-ip/paste/newpaste?text=Hello
+curl http://docker-machine-ip/paste/newpaste?text=Hello&cli=y
 ```
 
