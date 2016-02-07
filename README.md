@@ -13,8 +13,8 @@ ENV SITE_NAME "https://my-docker-machine-ip/paste"
 Next, you can spin up the application with a test database with the docker-compose.yml file.
 
 ```
-docker-compose -f scripts/docker-compose.yml build
-docker-compose -f scripts/docker-compose.yml up
+docker-compose build
+docker-compose up
 ```
 When complete, you can login with your browser to http://docker-machine-ip/paste . Replace "docker-machine-ip" with the actual IP for Docker.
 
