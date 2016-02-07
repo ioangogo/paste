@@ -6,9 +6,9 @@ A simple pastebin clone written in Node.js. It requires a MySQL backend.
 
 # How to run the program in docker
 
-After this repository is cloned, modify the Dockerfile and replace the following with your Docker Machine IP. Keep the /paste.
+After this repository is cloned, modify the Dockerfile and replace "my-docker-machine-ip" with your Docker Machine IP. Keep the /paste.
 ```
-ENV SITE_NAME "https://linux-toys.com/paste"
+ENV SITE_NAME "https://my-docker-machine-ip/paste"
 ```
 Next, you can spin up the application with a test database with the docker-compose.yml file.
 
