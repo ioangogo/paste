@@ -6,4 +6,4 @@ ENV SITE_NAME "https://my-docker-machine-ip/paste"
 ENV PASSWORD "paste"
 ENV MYSQL_URI "mysql://root:sql@mysql:3306/"
 ADD * /
-CMD cd /;npm install --no-bin-links;nodejs /main.js
+CMD cd /;npm install;nodejs /main.js
