@@ -15,6 +15,7 @@ Next, you can spin up the application with a test database with the docker-compo
 ```
 docker-compose build
 docker-compose up
+docker-compose start
 ```
 When complete, you can login with your browser to http://docker-machine-ip/paste . Replace "docker-machine-ip" with the actual IP for Docker.
 
