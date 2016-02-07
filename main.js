@@ -25,7 +25,7 @@ function createtable_async(data) {
 
 function createdb(callback){
     mysql_connection_create.getConnection(function(err,connection) {
-       mysql_connection_create.query("create database " + database + ";", function(err, rows) {
+     mysql_connection_create.query("create database " + database + ";", function(err, rows) {
         if(err) {
             console.log('Error creating database', err);
         }
@@ -33,19 +33,19 @@ function createdb(callback){
         createtable(createtable_async);
         callback('Creating Database.....');
     });
-   });
+ });
 }
 
 function createtable(callback){
     mysql_connection.getConnection(function(err, connection){
         mysql_connection.query("CREATE TABLE paste (id VARCHAR(1000),item VARCHAR(5000));", function(err, rows) {
-        if(err) {
-            console.log('Error creating table',err);
-        }
-        callback('Creating Table......');
-        connection.release();
+            if(err) {
+                console.log('Error creating table',err);
+            }
+            callback('Creating Table......');
+            connection.release();
+        });
     });
-  });
 }
 
 function createdb_async(data) {
@@ -69,8 +69,8 @@ var begin_share_message = ( '<html> <head> <link rel="stylesheet" href="//code.j
     + '<link rel="stylesheet" href="/resources/demos/style.css">'
     + '<script>'
     + ' $(function() {'
-       + '      $( "#dialog" ).dialog();'
-       + '  });'
+     + '      $( "#dialog" ).dialog();'
+     + '  });'
 + ' </script>'
 + '</head>'
 + '<body>'
@@ -127,6 +127,22 @@ app.get('/paste/show', function(req, res){
     });
 });
 
+app.get('/paste/delete', function(req, res){
+    var id = req.query['id'];
+    data = "";
+    mysql_connection.getConnection(function(err,connection) {
+        mysql_connection.query('delete from paste where id="' + id + '";', function(err, rows) { 
+            if (!err)  {
+                data = rows;
+                res.end('<html>Deleted post:'+ id);
+            }else {
+                data =  "An error has occurred.";
+                console.log(err);
+            }
+            connection.release();
+        });
+    });
+});
 
 app.get('/paste/login', function(req, res){
     var responseString = "";
@@ -145,7 +161,7 @@ app.get('/paste/body', function(req, res){
     res.write('<html><p align=center> <b>Welcome to Linux-toys Paste!</b></p>'
         + '<p align=left><b>Recent Pastes:</b>'
         );
-       mysql_connection.getConnection(function(err,connection) {
+    mysql_connection.getConnection(function(err,connection) {
         mysql_connection.query('select * from paste;', function(err, rows) { 
             if (!err)  {
                 data = rows;
@@ -155,14 +171,12 @@ app.get('/paste/body', function(req, res){
             }
             connection.release();
             for (var i in data){
-                 res.write(
-                '<li><a href="' + site_name + '/show?id=' + data[i].id + '&Submit=View">'
-                + data[i].id
-                + '</a></li>'
+               res.write(
+                '<li><a href="' + site_name + '/delete?id=' + data[i].id + '&Submit=View">[Del] </a> <a href="' + site_name + '/show?id=' + data[i].id + '&Submit=View">' + data[i].id + '</a></li>'
                 );
-            }
-            res.end('</html>');
-        });
+           }
+           res.end('</html>');
+       });
     });
 
 });
