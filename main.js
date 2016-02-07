@@ -172,7 +172,7 @@ app.get('/paste/body', function(req, res){
             connection.release();
             for (var i in data){
                res.write(
-                '<li><a href="' + site_name + '/delete?id=' + data[i].id + '&Submit=View">[Del] </a> <a href="' + site_name + '/show?id=' + data[i].id + '&Submit=View">' + data[i].id + '</a></li>'
+                '<li><a href="' + site_name + '/delete?id=' + data[i].id + '&Submit=View"><img src="/paste/delete.png" height="10" width="10"></a> <a href="' + site_name + '/show?id=' + data[i].id + '&Submit=View">' + data[i].id + '</a></li>'
                 );
            }
            res.end('</html>');
@@ -185,6 +185,11 @@ app.get('/paste/body', function(req, res){
 app.get('/paste/logo.png', function(req, res){
     res.sendFile(__dirname + '/logo.png');
 });
+
+app.get('/paste/delete.png', function(req, res){
+    res.sendFile(__dirname + '/delete.png');
+});
+
 
 server.listen(port, function() {
     console.log('Listening on port %d', server.address().port);
