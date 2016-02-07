@@ -1,0 +1,156 @@
+var http = require('http');
+var express = require('express');
+var request = require('request');
+var mysql = require('mysql');
+require('request-debug')(request);
+var port = process.env.PORT;
+var app = express();
+var server = require("http").createServer(app);
+var data = [];
+var database = 'paste';
+var dbURL = process.env.MYSQL_URI;
+var mysql_connection = mysql.createPool(dbURL + database);
+var mysql_connection_create = mysql.createPool(dbURL);
+var password = process.env.PASSWORD;
+var site_name = process.env.SITE_NAME;
+
+createdb(createdb_async);
+
+function createdb_async(data) {
+    console.log(data);
+}
+
+function createtable_async(data) {
+    console.log(data);
+}
+
+function createdb(callback){
+    mysql_connection_create.getConnection(function(err,connection) {
+     mysql_connection_create.query("create database " + database + ";", function(err, rows) {
+        if(err) {
+            console.log('Error creating database', err);
+        }
+        connection.release();
+        createtable(createtable_async);
+        callback('Creating Database.....');
+    });
+ });
+}
+
+function createtable(callback){
+    mysql_connection.getConnection(function(err, connection){
+      mysql_connection.query("CREATE TABLE paste (id VARCHAR(1000),item VARCHAR(1000));", function(err, rows) {
+        if(err) {
+            console.log('Error creating table',err);
+        }
+        callback('Creating Table......');
+        connection.release();
+    });
+  });
+}
+
+function createdb_async(data) {
+    console.log(data);
+}
+
+function createtable_async(data) {
+    console.log(data);
+}
+
+
+var defaultHTML = (
+    '<html>'
+    );
+
+
+
+var begin_share_message = ( '<html> <head> <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">'
+    + '<script src="//code.jquery.com/jquery-1.10.2.js"></script>'
+    + ' <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>'
+    + '<link rel="stylesheet" href="/resources/demos/style.css">'
+    + '<script>'
+    + ' $(function() {'
+     + '      $( "#dialog" ).dialog();'
+     + '  });'
++ ' </script>'
++ '</head>'
++ '<body>'
++ ' <div id="resizable" class="ui-widget-content">'
+);
+
+var end_share_mesage = ( '</div></p></body></html>'
+);
+
+
+app.get('/paste', function(req, res){
+    var paste_data = req.query['text'];
+    var length = 10;
+    var id = "";
+
+    var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+    for(var i = 0; i < length; i++) {
+        id += possible.charAt(Math.floor(Math.random() * possible.length));
+    }
+
+    mysql_connection.getConnection(function(err,connection) {
+
+        mysql_connection.query('insert into paste (id,item) values("' + id + '","' + paste_data + '");', function(err,rows) {
+            if(err) {
+                console.log('Error sending paste data', err);
+            }
+            connection.release();
+        });
+    });
+  
+    res.end(begin_share_message + '<h3 class="ui-widget-header">Your paste is ready to share!</h3>'+ 'Your paste is available here:<br><br><a href="' + site_name + '/show?id=' + id + '">' + site_name  + '/show?id=' + id + '</a>' + end_share_mesage);
+});
+
+app.get('/new', function(req, res){
+    var responseString = "";
+    res.sendFile(__dirname + '/new.html');
+});
+
+
+app.get('/show', function(req, res){
+    var id = req.query['id'];
+    data = "";
+    mysql_connection.getConnection(function(err,connection) {
+        mysql_connection.query('select * from paste where id="' + id + '";', function(err, rows) { 
+            if (!err)  {
+                data = rows;
+                res.end(begin_share_message + '<h3 class="ui-widget-header">A Linux-toys shared paste.</h3>'+ rows[0].item + end_share_mesage);
+
+            }else {
+                data =  "An error has occurred.";
+                console.log(err);
+            }
+            connection.release();
+        });
+    });
+});
+
+
+app.get('/login', function(req, res){
+    var responseString = "";
+    res.sendFile(__dirname + '/login.html');
+});
+
+
+app.get('/', function(req, res){
+    var responseString = "";
+    res.sendFile(__dirname + '/index.html');
+});
+
+app.get('/body', function(req, res){
+    var responseString = "";
+    res.end('Click a button to preceed');
+});
+
+
+app.get('/logo.png', function(req, res){
+    res.sendFile(__dirname + '/logo.png');
+});
+
+server.listen(port, function() {
+    console.log('Listening on port %d', server.address().port);
+});
