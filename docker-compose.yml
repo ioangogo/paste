@@ -9,5 +9,3 @@ node:
     - 8080:8080
   links: 
     - mysql:mysql
-  volumes:
-    - /Users/philliptribble/paste:/paste
