@@ -38,7 +38,7 @@ function createdb(callback){
 
 function createtable(callback){
     mysql_connection.getConnection(function(err, connection){
-      mysql_connection.query("CREATE TABLE paste (id VARCHAR(1000),item VARCHAR(1000));", function(err, rows) {
+        mysql_connection.query("CREATE TABLE paste (id VARCHAR(1000),item VARCHAR(5000));", function(err, rows) {
         if(err) {
             console.log('Error creating table',err);
         }
