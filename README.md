@@ -4,7 +4,7 @@ This program is free software: you can redistribute it and/or modify it under th
 # Description 
 A simple pastebin clone written in Node.js. It requires a MySQL backend. 
 
-# How to run the program in docker
+# How to run in Docker
 
 After this repository is cloned, modify the Dockerfile and replace "my-docker-machine-ip" with your Docker Machine IP. Keep the /paste.
 ```
