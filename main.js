@@ -25,7 +25,7 @@ function createtable_async(data) {
 
 function createdb(callback){
     mysql_connection_create.getConnection(function(err,connection) {
-     mysql_connection_create.query("create database " + database + ";", function(err, rows) {
+       mysql_connection_create.query("create database " + database + ";", function(err, rows) {
         if(err) {
             console.log('Error creating database', err);
         }
@@ -33,7 +33,7 @@ function createdb(callback){
         createtable(createtable_async);
         callback('Creating Database.....');
     });
- });
+   });
 }
 
 function createtable(callback){
@@ -69,8 +69,8 @@ var begin_share_message = ( '<html> <head> <link rel="stylesheet" href="//code.j
     + '<link rel="stylesheet" href="/resources/demos/style.css">'
     + '<script>'
     + ' $(function() {'
-     + '      $( "#dialog" ).dialog();'
-     + '  });'
+       + '      $( "#dialog" ).dialog();'
+       + '  });'
 + ' </script>'
 + '</head>'
 + '<body>'
@@ -82,29 +82,25 @@ var end_share_mesage = ( '</div></p></body></html>'
 
 app.get('/paste/newpaste', function(req, res){
   var paste_data = req.query['text'];
-  var temp_paste_data = paste_data;
   var length = 10;
   var id = "";
 
-  if(paste_data.indexOf('\'') != -1){
-    paste_data = temp_paste_data.replace(/\'/g,"\\\'");
-}
-
-var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-for(var i = 0; i < length; i++) {
+  var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+  for(var i = 0; i < length; i++) {
     id += possible.charAt(Math.floor(Math.random() * possible.length));
 }
 
 mysql_connection.getConnection(function(err,connection) {
-    mysql_connection.query("insert into paste (id,item) values('" + id + "','" + paste_data + "');", function(err,rows) {
+    var safe_paste_data = mysql.escape(paste_data);
+    mysql_connection.query("insert into paste (id,item) values('" + id + "'," + safe_paste_data + ");", function(err,rows) {
         if(err) {
             console.log('Error sending paste data', err);
         }
         connection.release();
     });
-  });
+});
 
-    res.end(begin_share_message + '<h3 class="ui-widget-header">Your paste is ready to share!</h3>'+ 'Your paste is available here:<br><br><a href="' + site_name + '/show?id=' + id + '">' + site_name  + '/show?id=' + id + '</a>' + end_share_mesage);
+res.end(begin_share_message + '<h3 class="ui-widget-header">Your paste is ready to share!</h3>'+ 'Your paste is available here:<br><br><a href="' + site_name + '/show?id=' + id + '">' + site_name  + '/show?id=' + id + '</a>' + end_share_mesage);
 });
 
 
