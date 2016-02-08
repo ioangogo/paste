@@ -25,7 +25,7 @@ function createtable_async(data) {
 
 function createdb(callback){
     mysql_connection_create.getConnection(function(err,connection) {
-       mysql_connection_create.query("create database " + database + ";", function(err, rows) {
+     mysql_connection_create.query("create database " + database + ";", function(err, rows) {
         if(err) {
             console.log('Error creating database', err);
         }
@@ -33,7 +33,7 @@ function createdb(callback){
         createtable(createtable_async);
         callback('Creating Database.....');
     });
-   });
+ });
 }
 
 function createtable(callback){
@@ -68,8 +68,8 @@ var mini_begin_share_message = ( '<html> <head> <link rel="stylesheet" href="//c
     + '<link rel="stylesheet" href="/resources/demos/style.css">'
     + '<script>'
     + ' $(function() {'
-       + '      $( "#dialog" ).dialog();'
-       + '  });'
+     + '      $( "#dialog" ).dialog();'
+     + '  });'
 + ' </script>'
 + '</head>'
 + '<body>'
@@ -82,8 +82,8 @@ var begin_share_message = ( '<html> <head> <link rel="stylesheet" href="//code.j
     + '<link rel="stylesheet" href="/resources/demos/style.css">'
     + '<script>'
     + ' $(function() {'
-       + '      $( "#dialog" ).dialog();'
-       + '  });'
+     + '      $( "#dialog" ).dialog();'
+     + '  });'
 + ' </script>'
 + '</head>'
 + '<body>'
@@ -131,14 +131,17 @@ app.get('/paste/show', function(req, res){
         mysql_connection.query('select * from paste where id="' + id + '";', function(err, rows) { 
             if (!err)  {
                 data = rows;
-                res.end(begin_share_message + '<h3 class="ui-widget-header">Viewing shared post: ' + rows[0].id + '</h3>'+ rows[0].item + end_share_mesage);
-
-            }else {
-                data =  "An error has occurred.";
-                console.log(err);
-            }
-            connection.release();
-        });
+                if(data.length > 0) {
+                    res.end(begin_share_message + '<h3 class="ui-widget-header">Viewing shared post: ' + rows[0].id + '</h3>'+ rows[0].item + end_share_mesage);
+                } else {
+                 res.end(begin_share_message + '<h3 class="ui-widget-header">Error, paste does not exist!</h3>'+  end_share_mesage);
+             }
+         }else {
+            data =  "An error has occurred.";
+            console.log(err);
+        }
+        connection.release();
+    });
     });
 });
 
