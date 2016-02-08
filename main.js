@@ -62,7 +62,7 @@ var defaultHTML = (
     );
 
 
-var mini_begin_share_message = ( '<html> <head> <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">'
+var mini_begin_share_message = ( '<html> <head> <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/cupertino/jquery-ui.css">'
     + '<script src="//code.jquery.com/jquery-1.10.2.js"></script>'
     + ' <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>'
     + '<link rel="stylesheet" href="/resources/demos/style.css">'
@@ -76,7 +76,7 @@ var mini_begin_share_message = ( '<html> <head> <link rel="stylesheet" href="//c
 + ' <div id="resizable" class="ui-widget-content">'
 );
 
-var begin_share_message = ( '<html> <head> <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">'
+var begin_share_message = ( '<html> <head> <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/cupertino/jquery-ui.css">'
     + '<script src="//code.jquery.com/jquery-1.10.2.js"></script>'
     + ' <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>'
     + '<link rel="stylesheet" href="/resources/demos/style.css">'
@@ -187,7 +187,7 @@ app.get('/paste/body', function(req, res){
             connection.release();
             for (var i in data){
                 res.write(mini_begin_share_message + '<h3 class="ui-widget-header">Paste ID: <a href="' + site_name + '/delete?id=' + data[i].id + '&Submit=View"><img src="/paste/delete.png" height="10" width="10"></a> <a href="' + site_name + '/show?id=' + data[i].id + '&Submit=View">' + data[i].id + '</a>' + '.</h3>' +  data[i].item + end_share_mesage);
-                
+
             }
             res.end('</html>');
         });
