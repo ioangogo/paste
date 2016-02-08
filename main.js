@@ -203,7 +203,7 @@ app.get('/paste/delete', function(req, res){
         mysql_connection.query('delete from paste where id="' + id + '";', function(err, rows) { 
             if (!err)  {
                 data = rows;
-                res.end(mini_begin_share_message + '<h3 class="ui-widget-header">Deleted Post:' + id + '</h3>'+  end_share_mesage);
+                res.end(mini_begin_share_message + '<h3 class="ui-widget-header">Deleted paste:' + id + '</h3>'+  end_share_mesage);
             }else {
                 data =  "An error has occurred.";
                 console.log(err);
