@@ -75,6 +75,7 @@ var begin_share_message = ( '<html> <head> <link rel="stylesheet" href="//code.j
 + '</head>'
 + '<body>'
 + '<p align=center><a href="/"><img src="/paste/from.png"></a></p>'
++ '<p align=center><a href="/"><img src="/paste/caring.png"></a></p>'
 + ' <div id="resizable" class="ui-widget-content">'
 );
 
@@ -117,7 +118,7 @@ app.get('/paste/show', function(req, res){
         mysql_connection.query('select * from paste where id="' + id + '";', function(err, rows) { 
             if (!err)  {
                 data = rows;
-                res.end(begin_share_message + '<h3 class="ui-widget-header">Viewing shared post: ' + rows[0].id + ' - Sharing is caring: ' + rows[0].id + '</h3>'+ rows[0].item + end_share_mesage);
+                res.end(begin_share_message + '<h3 class="ui-widget-header">Viewing shared post: ' + rows[0].id + '</h3>'+ rows[0].item + end_share_mesage);
 
             }else {
                 data =  "An error has occurred.";
@@ -200,6 +201,10 @@ app.get('/paste/whats.png', function(req, res){
 
 app.get('/paste/delete.png', function(req, res){
     res.sendFile(__dirname + '/delete.png');
+});
+
+app.get('/paste/caring.png', function(req, res){
+    res.sendFile(__dirname + '/caring.png');
 });
 
 app.get('/paste/from.png', function(req, res){
