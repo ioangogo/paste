@@ -182,7 +182,7 @@ app.get('/paste/show', function(req, res){
             if (!err)  {
                 data = rows;
                 if(data.length > 0) {
-                    res.write(begin_share_message + '<h3 class="ui-widget-header">Viewing Paste: <a href="' + site_name + '/show?id=' + rows[0].id + '&Submit=View">' + rows[0].id + '</a><a href="' + site_name + '/delete?id=' + rows[0].id + '&Submit=View"><img src="/paste/delete.png" height="10" width="10"></a> <a href="' + site_name + '/edit?id=' + rows[0].id + '&Submit=View"><img src="/paste/edit.png" height="10" width="10"></a></h3>' +  rows[0].item + end_share_mesage);
+                    res.end(begin_share_message + '<h3 class="ui-widget-header">Viewing Paste: <a href="' + site_name + '/show?id=' + rows[0].id + '&Submit=View">' + rows[0].id + '</a><a href="' + site_name + '/delete?id=' + rows[0].id + '&Submit=View"><img src="/paste/delete.png" height="10" width="10"></a> <a href="' + site_name + '/edit?id=' + rows[0].id + '&Submit=View"><img src="/paste/edit.png" height="10" width="10"></a></h3>' +  rows[0].item + end_share_mesage);
 
                 } else {
                    res.end(begin_share_message + '<h3 class="ui-widget-header">Error, paste does not exist!</h3>'+  end_share_mesage);
