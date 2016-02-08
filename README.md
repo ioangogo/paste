@@ -6,7 +6,7 @@ A simple pastebin clone written in Node.js. It requires a MySQL backend.
 
 # Screenshot
 
-![Graph](http://i.imgur.com/hYpjFUc.png)
+![Graph](http://i.imgur.com/XBwZMFf.png)
 
 # How to run in Docker
 
