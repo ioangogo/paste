@@ -101,7 +101,6 @@ app.get('/paste/submitedit', function(req, res){
 
   mysql_connection.getConnection(function(err,connection) {
     var safe_paste_data = mysql.escape(paste_data);
-    console.log("update paste set item=" + safe_paste_data + " where id='" + id + "';");
     mysql_connection.query("update paste set item=" + safe_paste_data + " where id='" + id + "';", function(err,rows) {
         if(err) {
             console.log('Error sending paste data', err);
