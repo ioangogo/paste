@@ -36,3 +36,10 @@ curl http://docker-machine-ip/paste/show?id=XXXXXXXXXX
 ```
 curl http://docker-machine-ip/paste/delete?id=XXXXXXXXXX
 ```
+
+# Paste a file with curl 
+```
+output=`cat file.txt`;  curl -G "http://docker-machine-ip/paste/newpaste" --data-urlencode "text=$output"
+```
+
+
