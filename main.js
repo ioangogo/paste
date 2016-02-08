@@ -25,7 +25,7 @@ function createtable_async(data) {
 
 function createdb(callback){
     mysql_connection_create.getConnection(function(err,connection) {
-     mysql_connection_create.query("create database " + database + ";", function(err, rows) {
+       mysql_connection_create.query("create database " + database + ";", function(err, rows) {
         if(err) {
             console.log('Error creating database', err);
         }
@@ -33,7 +33,7 @@ function createdb(callback){
         createtable(createtable_async);
         callback('Creating Database.....');
     });
- });
+   });
 }
 
 function createtable(callback){
@@ -62,6 +62,19 @@ var defaultHTML = (
     );
 
 
+var mini_begin_share_message = ( '<html> <head> <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">'
+    + '<script src="//code.jquery.com/jquery-1.10.2.js"></script>'
+    + ' <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>'
+    + '<link rel="stylesheet" href="/resources/demos/style.css">'
+    + '<script>'
+    + ' $(function() {'
+       + '      $( "#dialog" ).dialog();'
+       + '  });'
++ ' </script>'
++ '</head>'
++ '<body>'
++ ' <div id="resizable" class="ui-widget-content">'
+);
 
 var begin_share_message = ( '<html> <head> <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">'
     + '<script src="//code.jquery.com/jquery-1.10.2.js"></script>'
@@ -69,8 +82,8 @@ var begin_share_message = ( '<html> <head> <link rel="stylesheet" href="//code.j
     + '<link rel="stylesheet" href="/resources/demos/style.css">'
     + '<script>'
     + ' $(function() {'
-     + '      $( "#dialog" ).dialog();'
-     + '  });'
+       + '      $( "#dialog" ).dialog();'
+       + '  });'
 + ' </script>'
 + '</head>'
 + '<body>'
@@ -173,11 +186,11 @@ app.get('/paste/body', function(req, res){
             }
             connection.release();
             for (var i in data){
-                res.write(begin_share_message + '<h3 class="ui-widget-header">Paste ID: <a href="' + site_name + '/delete?id=' + data[i].id + '&Submit=View"><img src="/paste/delete.png" height="10" width="10"></a> <a href="' + site_name + '/show?id=' + data[i].id + '&Submit=View">' + data[i].id + '</a>' + '.</h3>' +  data[i].item + end_share_mesage);
-             
-           }
-           res.end('</html>');
-       });
+                res.write(mini_begin_share_message + '<h3 class="ui-widget-header">Paste ID: <a href="' + site_name + '/delete?id=' + data[i].id + '&Submit=View"><img src="/paste/delete.png" height="10" width="10"></a> <a href="' + site_name + '/show?id=' + data[i].id + '&Submit=View">' + data[i].id + '</a>' + '.</h3>' +  data[i].item + end_share_mesage);
+                
+            }
+            res.end('</html>');
+        });
     });
 
 });
