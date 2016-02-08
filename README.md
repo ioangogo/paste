@@ -25,7 +25,7 @@ When complete, you can login with your browser to http://docker-machine-ip/paste
 
 # Pasting with curl from the terminal
 ```
-curl http://docker-machine-ip/paste/newpaste?text=Hello
+curl -G "http://docker-machine-ip/paste/newpaste" --data-urlencode "text=hello world"
 ```
 
 # View a paste with curl using a paste id
