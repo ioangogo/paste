@@ -158,8 +158,8 @@ app.get('/', function(req, res){
 app.get('/paste/body', function(req, res){
     var data = "";
     var responseString = "";
-    res.write('<html><p align=center> <b>Welcome to Linux-toys Paste!</b></p>'
-        + '<p align=left><b>Recent Pastes:</b>'
+    res.write('<html><p align=center><img src=/paste/whats.png></p>'
+        + '<p align=left>'
         );
     mysql_connection.getConnection(function(err,connection) {
         mysql_connection.query('select * from paste;', function(err, rows) { 
@@ -186,6 +186,15 @@ app.get('/paste/new.html', function(req, res){
 
 app.get('/paste/logo.png', function(req, res){
     res.sendFile(__dirname + '/logo.png');
+});
+
+app.get('/paste/dare.png', function(req, res){
+    res.sendFile(__dirname + '/dare.png');
+});
+
+
+app.get('/paste/whats.png', function(req, res){
+    res.sendFile(__dirname + '/whats.png');
 });
 
 app.get('/paste/delete.png', function(req, res){
