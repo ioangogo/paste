@@ -75,7 +75,7 @@ var begin_share_message = ( '<html> <head> <link rel="stylesheet" href="//code.j
 + '</head>'
 + '<body>'
 + '<p align=center><a href="/"><img src="/paste/from.png"></a></p>'
-+ '<p align=center><a href="/"><img src="/paste/caring.png"></a></p>'
++ '<p align=center><a href="https://github.com/rusher81572/paste"><img src="/paste/caring.png"></a></p>'
 + ' <div id="resizable" class="ui-widget-content">'
 );
 
