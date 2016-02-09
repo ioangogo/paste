@@ -38,7 +38,7 @@ function createdb(callback){
 
 function createtable(callback){
     mysql_connection.getConnection(function(err, connection){
-        mysql_connection.query("CREATE TABLE paste (id VARCHAR(1000),item VARCHAR(5000));", function(err, rows) {
+        mysql_connection.query("CREATE TABLE paste (num INT NOT NULL AUTO_INCREMENT PRIMARY KEY,id VARCHAR(1000),item VARCHAR(5000));", function(err, rows) {
             if(err) {
                 console.log('Error creating table',err);
             }
@@ -231,7 +231,7 @@ app.get('/paste/body', function(req, res){
         + '<p align=left>'
         );
     mysql_connection.getConnection(function(err,connection) {
-        mysql_connection.query('select * from paste;', function(err, rows) { 
+        mysql_connection.query('select * from paste order by num desc limit 10;', function(err, rows) { 
             if (!err)  {
                 data = rows;
             }else {
@@ -239,6 +239,7 @@ app.get('/paste/body', function(req, res){
                 console.log(err);
             }
             connection.release();
+            
             for (var i in data){
                 res.write(mini_begin_share_message + '<h3 class="ui-widget-header">Paste: <a href="' + site_name + '/show?id=' + data[i].id + '&Submit=View">' + data[i].id + '</a><a href="' + site_name + '/delete?id=' + data[i].id + '&Submit=View"><img src="/paste/delete.png" height="10" width="10"></a> <a href="' + site_name + '/edit?id=' + data[i].id + '&Submit=View"><img src="/paste/edit.png" height="10" width="10"></a></h3>' +  data[i].item + end_share_mesage);
             }
