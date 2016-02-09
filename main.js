@@ -182,8 +182,7 @@ app.get('/paste/show', function(req, res){
             if (!err)  {
                 data = rows;
                 if(data.length > 0) {
-                    res.end(begin_share_message + '<h3 class="ui-widget-header">Viewing Paste: <a href="' + site_name + '/show?id=' + rows[0].id + '&Submit=View">' + rows[0].id + '</a><a href="' + site_name + '/delete?id=' + rows[0].id + '&Submit=View"><img src="/paste/delete.png" height="10" width="10"></a> <a href="' + site_name + '/edit?id=' + rows[0].id + '&Submit=View"><img src="/paste/edit.png" height="10" width="10"></a></h3>' +  rows[0].item + end_share_mesage);
-
+                    res.end(begin_share_message + '<h3 class="ui-widget-header">Viewing Paste: <a href="' + site_name + '/show?id=' + rows[0].id + '&Submit=View">' + rows[0].id + '</a></h3>' +  rows[0].item + end_share_mesage);
                 } else {
                    res.end(begin_share_message + '<h3 class="ui-widget-header">Error, paste does not exist!</h3>'+  end_share_mesage);
                }
@@ -214,19 +213,76 @@ app.get('/paste/delete', function(req, res){
 });
 
 app.get('/paste/login', function(req, res){
-    var responseString = "";
-    res.sendFile(__dirname + '/login.html');
+    res.end('<html><title>Paste Admin Console!</title><head>'
+        + '<link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/cupertino/jquery-ui.css">'
+        + '<script src="//code.jquery.com/jquery-1.10.2.js"></script>'
+        + '<script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>'
+        + '<script> $(function() { $( "#start" ).dialog();});'
+        + 'function login(){window.location = "/paste/auth" }'
+        + '</script></head><body>'
+        + '<div id="start" title="Paste Admin Console"><p align=left>Enter password to continue<br>'
+        + '<form method="get" action="/paste/auth"><input type="text" name="password">'
+        + '<input type="submit" onclick="login()"><br> </form></p> </body> </html>');
 });
-
 
 app.get('/', function(req, res){
     var responseString = "";
     res.sendFile(__dirname + '/index.html');
 });
 
+app.get('/paste/auth', function(req, res){
+ var get_password = req.query['password'];
+ if(get_password == password) {
+    res.end('<html><title>Paste Admin Console!</title><head><p align=center><a href="/"><img src="/paste/logo.png"></a></p>'
+        + '</head><body><p align=center><img src="/paste/dare.png"><b><br><br>'
+        + '<html><p align=center>'
+        + ' <table style="width:10%"><tr></form></td>'
+        + '</td><td><form action="/paste/admin" target="iframe_a">'
+        + '<input type="hidden" name="password" value="' + password + '">'
+        + '<input type="submit" value="Home"/>'
+        + '</form></td>'
+        + '<td><form action="/paste/new" target="iframe_a">'
+        + '<input type="submit" value="New Paste"/>'
+        + '</form></td>'
+        + '</table>'
+        + '<IFRAME SRC="/paste/admin?password=' + password + '" name="iframe_a" WIDTH=1200 HEIGHT=1000></html>');
+} else {
+ res.end(mini_begin_share_message + '<h3 class="ui-widget-header">Invalid Password!</h3>' + end_share_mesage);
+}
+});
+
+app.get('/paste/admin', function(req, res){
+    var data = "";
+    var responseString = "";
+    var get_password = req.query['password'];
+    if(get_password == password) {
+      res.write('<html>');
+      mysql_connection.getConnection(function(err,connection) {
+        mysql_connection.query('select * from paste;', function(err, rows) { 
+            if (!err)  {
+                data = rows;
+            }else {
+                data =  "An error has occurred.";
+                console.log(err);
+            }
+            connection.release();
+
+            for (var i in data){
+                res.write(mini_begin_share_message + '<h3 class="ui-widget-header">Paste: ' + data[i].id + '<a href="' + site_name + '/delete?id=' + data[i].id + '&Submit=View"><img src="/paste/delete.png" height="10" width="10"></a> <a href="' + site_name + '/edit?id=' + data[i].id + '&Submit=View"><img src="/paste/edit.png" height="10" width="10"></a></h3>' +  data[i].item + end_share_mesage);
+            }
+            res.end('</html>');
+        });
+    });
+  } else {
+     res.end(mini_begin_share_message + '<h3 class="ui-widget-header">Invalid Password!</h3>' + end_share_mesage);
+ }
+});
+
+
 app.get('/paste/body', function(req, res){
     var data = "";
     var responseString = "";
+
     res.write('<html><p align=center><img src=/paste/whats.png></p>'
         + '<p align=left>'
         );
@@ -241,13 +297,14 @@ app.get('/paste/body', function(req, res){
             connection.release();
             
             for (var i in data){
-                res.write(mini_begin_share_message + '<h3 class="ui-widget-header">Paste: <a href="' + site_name + '/show?id=' + data[i].id + '&Submit=View">' + data[i].id + '</a><a href="' + site_name + '/delete?id=' + data[i].id + '&Submit=View"><img src="/paste/delete.png" height="10" width="10"></a> <a href="' + site_name + '/edit?id=' + data[i].id + '&Submit=View"><img src="/paste/edit.png" height="10" width="10"></a></h3>' +  data[i].item + end_share_mesage);
+                res.write(mini_begin_share_message + '<h3 class="ui-widget-header">Paste: <a href="' + site_name + '/show?id=' + data[i].id + '&Submit=View">' + data[i].id + '</a></h3>' +  data[i].item + end_share_mesage);
             }
             res.end('</html>');
         });
     });
 
 });
+
 
 app.get('/paste/new.html', function(req, res){
     res.sendFile(__dirname + '/new.html');
