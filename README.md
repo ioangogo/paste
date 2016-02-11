@@ -44,7 +44,7 @@ output=`cat file.txt`;  curl -X POST "http://docker-machine-ip/paste/newpaste" -
 
 # Paste output of a command with curl 
 ```
-output=`hostname`;  curl -s "http://docker-machine-ip/paste/newpaste" --data-urlencode "text=$output"
+output=`hostname`;  curl -X POST "http://docker-machine-ip/paste/newpaste" --data-urlencode "text=$output"
 ```
 
 
