@@ -4,6 +4,8 @@ var request = require('request');
 var mysql = require('mysql');
 var port = process.env.PORT;
 var app = express();
+var bodyParser = require('body-parser');
+app.use(bodyParser());
 var server = require("http").createServer(app);
 var data = [];
 var database = 'paste';
@@ -113,8 +115,8 @@ app.get('/paste/submitedit', function(req, res){
 });
 
 
-app.get('/paste/newpaste', function(req, res){
-  var paste_data = req.query['text'];
+app.post('/paste/newpaste', function(req, res){
+  var paste_data = req.body.text;
   var length = 10;
   var id = "";
 

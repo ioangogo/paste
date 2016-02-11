@@ -25,7 +25,7 @@ When complete, you can login with your browser to http://docker-machine-ip/paste
 
 # Pasting with curl from the terminal
 ```
-curl -G "http://docker-machine-ip/paste/newpaste" --data-urlencode "text=hello world"
+curl -X POST "http://docker-machine-ip/paste/newpaste" --data-urlencode "text=hello world"
 ```
 
 # View a paste with curl using a paste id
@@ -39,12 +39,12 @@ curl http://docker-machine-ip/paste/delete?id=XXXXXXXXXX
 
 # Paste a file with curl 
 ```
-output=`cat file.txt`;  curl -G "http://docker-machine-ip/paste/newpaste" --data-urlencode "text=$output"
+output=`cat file.txt`;  curl -X POST "http://docker-machine-ip/paste/newpaste" --data-urlencode "text=$output"
 ```
 
 # Paste output of a command with curl 
 ```
-output=`hostname`;  curl -G "http://docker-machine-ip/paste/newpaste" --data-urlencode "text=$output"
+output=`hostname`;  curl -X POST "http://docker-machine-ip/paste/newpaste" --data-urlencode "text=$output"
 ```
 
 
