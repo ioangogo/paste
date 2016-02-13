@@ -15,9 +15,13 @@
 	<div id="resizable" class="ui-widget-content">
 		<h3 class="ui-widget-header">Create a blog post.</h3>
 		<form action="/paste/newpaste" method="POST">
-			<p align=center>
-				<b>Enter HTML here: </b><br><br>
+		<p align=center>
+		<br><b>Blog Post Title:</b><br>
+		<input type="text" name="subject" value="">
+		<br> <p align=center>
+				<b>Message: </b><br><br>
 				<textarea rows="20" cols="100" name="text"></textarea>
+				<br>
 				<p align=center>
 					<input type="submit">
 				</form>
