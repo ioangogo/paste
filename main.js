@@ -8,7 +8,7 @@ var bodyParser = require('body-parser');
 app.use(bodyParser());
 var server = require("http").createServer(app);
 var data = [];
-var database = 'paste';
+var database = 'blog';
 var dbURL = process.env.MYSQL_URI;
 var mysql_connection = mysql.createPool(dbURL + database);
 var mysql_connection_create = mysql.createPool(dbURL);
@@ -364,6 +364,10 @@ app.get('/blog/post.png', function(req, res){
 });
 app.get('/blog/newpost.png', function(req, res){
     res.sendFile(__dirname + '/newpost.png');
+});
+
+app.get('/blog/background.png', function(req, res){
+    res.sendFile(__dirname + '/background.png');
 });
 
 app.get('/blog/login.png', function(req, res){
