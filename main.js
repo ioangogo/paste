@@ -89,11 +89,13 @@ var end_share_mesage = ( '</div></p></body></html>'
 
 app.get('/blog/submitedit', function(req, res){
   var paste_data = req.query['text'];
+   var subject_data = req.query['subject'];
   var id = req.query['id'];
 
   mysql_connection.getConnection(function(err,connection) {
     var safe_paste_data = mysql.escape(paste_data);
-    mysql_connection.query("update paste set item=" + safe_paste_data + " where id='" + id + "';", function(err,rows) {
+     var safe_subject_data = mysql.escape(subject_data);
+    mysql_connection.query("update paste set item=" + safe_paste_data + ",subject=" + safe_subject_data + " where id='" + id + "';", function(err,rows) {
         if(err) {
             console.log('Error sending paste data', err);
         }
@@ -176,6 +178,8 @@ app.get('/blog/edit', function(req, res){
                         + '<form action="/blog/submitedit" id="usrform">'
                         + '<p align=center>'
                         + '<input type="hidden" name="id" value="' + rows[0].id + '">'
+                        + 'Blog Title:<br>'
+                        + '<input type="text" name="subject" value="' + rows[0].subject + '"><br><br>'
                         + '<textarea rows="20" cols="100" name="text" form="usrform">' + rows[0].item + '</textarea>'
                         + '<p align=center>'
                         + '<input type="image" src="/blog/post.png"/></form>'
