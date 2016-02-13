@@ -242,7 +242,7 @@ app.get('/blog/login', function(req, res){
         + '<p align=center><a href="/"><img src="/blog/logo.png"></a></p>'
         + '<div id="start" title="Blog Admin Console"><p align=left>Enter password to continue<br>'
         + '<form method="get" action="/blog/auth"><input type="text" name="password">'
-        + '<input type="submit" onclick="login()"><br> </form></p> </body> </html>');
+        + '<br><br><input type="submit" onclick="login()"><br> </form></p> </body> </html>');
 });
 
 app.get('/', function(req, res){
