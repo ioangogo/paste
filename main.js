@@ -349,7 +349,6 @@ app.get('/paste/dare.png', function(req, res){
     res.sendFile(__dirname + '/dare.png');
 });
 
-
 app.get('/paste/whats.png', function(req, res){
     res.sendFile(__dirname + '/whats.png');
 });
