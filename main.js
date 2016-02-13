@@ -133,7 +133,7 @@ app.post('/paste/search', function(req, res){
             connection.release();
             
             for (var i in data){
-                res.write(mini_begin_share_message + '<h3 class="ui-widget-header">Paste: <a href="' + site_name + '/show?id=' + data[i].id + '&Submit=View">' + data[i].id + '</a><a href="' + site_name + '/delete?id=' + data[i].id + '&Submit=View"><img src="/paste/delete.png" height="10" width="10"></a> <a href="' + site_name + '/edit?id=' + data[i].id + '&Submit=View"><img src="/paste/edit.png" height="10" width="10"></a></h3>' +  data[i].item + end_share_mesage);
+                res.write(mini_begin_share_message + '<h3 class="ui-widget-header">Post: <a href="' + site_name + '/show?id=' + data[i].id + '&Submit=View">' + data[i].id + '</a><a href="' + site_name + '/delete?id=' + data[i].id + '&Submit=View"><img src="/paste/delete.png" height="10" width="10"></a> <a href="' + site_name + '/edit?id=' + data[i].id + '&Submit=View"><img src="/paste/edit.png" height="10" width="10"></a></h3>' +  data[i].item + end_share_mesage);
             }
             res.end('</html>');
         });
