@@ -74,7 +74,7 @@ var mini_begin_share_message = ( '<html> <head> <link rel="stylesheet" href="//c
        + '  });'
 + ' </script>'
 + '</head>'
-+ '<body>'
++ '<body background="/paste/background.png">'
 + ' <div id="resizable" class="ui-widget-content">'
 );
 
@@ -88,7 +88,7 @@ var begin_share_message = ( '<html> <head> <link rel="stylesheet" href="//code.j
        + '  });'
 + ' </script>'
 + '</head>'
-+ '<body>'
++ '<body background="/paste/background.png">'
 + '<p align=center><a href="/"><img src="/paste/from.png"></a></p>'
 + '<p align=center><a href="https://github.com/rusher81572/paste"><img src="/paste/caring.png"></a></p>'
 + ' <div id="resizable" class="ui-widget-content">'
@@ -114,6 +114,32 @@ app.get('/paste/submitedit', function(req, res){
   res.end(mini_begin_share_message + '<h3 class="ui-widget-header">Your paste is ready to share!</h3>'+ 'Your paste has been edited:<br><br><a href="' + site_name + '/show?id=' + id + '">' + site_name  + '/show?id=' + id + '</a>' + end_share_mesage);
 });
 
+app.post('/paste/search', function(req, res){
+    var what = '%' + req.body.what + '%';
+    var safe_search = mysql.escape(what);
+    var responseString = "";
+    res.write('<html><p align=center><img src=/paste/whats.png></p>'
+        + '<p align=left>'
+        );
+    
+    mysql_connection.getConnection(function(err,connection) {
+        mysql_connection.query("select * from paste where item like " + safe_search +  ";", function(err, rows) { 
+            if (!err)  {
+                data = rows;
+            }else {
+                data =  "An error has occurred.";
+                console.log(err);
+            }
+            connection.release();
+            
+            for (var i in data){
+                res.write(mini_begin_share_message + '<h3 class="ui-widget-header">Paste: <a href="' + site_name + '/show?id=' + data[i].id + '&Submit=View">' + data[i].id + '</a><a href="' + site_name + '/delete?id=' + data[i].id + '&Submit=View"><img src="/paste/delete.png" height="10" width="10"></a> <a href="' + site_name + '/edit?id=' + data[i].id + '&Submit=View"><img src="/paste/edit.png" height="10" width="10"></a></h3>' +  data[i].item + end_share_mesage);
+            }
+            res.end('</html>');
+        });
+    });
+
+});
 
 app.post('/paste/newpaste', function(req, res){
   var paste_data = req.body.text;
@@ -215,7 +241,7 @@ app.get('/paste/delete', function(req, res){
 });
 
 app.get('/paste/login', function(req, res){
-    res.end('<html><title>Paste Admin Console!</title><head>'
+    res.end('<html><body background="/paste/background.png"><title>Paste Admin Console!</title><head>'
         + '<link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/cupertino/jquery-ui.css">'
         + '<script src="//code.jquery.com/jquery-1.10.2.js"></script>'
         + '<script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>'
@@ -236,7 +262,7 @@ app.get('/paste/auth', function(req, res){
  var get_password = req.query['password'];
  if(get_password == password) {
     res.end('<html><title>Paste Admin Console!</title><head><p align=center><a href="/"><img src="/paste/logo.png"></a></p>'
-        + '</head><body><p align=center><img src="/paste/dare.png"><b><br><br>'
+        + '</head><body background="/paste/background.png"><p align=center><img src="/paste/dare.png"><b><br><br>'
         + '<html><p align=center>'
         + ' <table style="width:10%"><tr></form></td>'
         + '</td><td><form action="/paste/admin" target="iframe_a">'
@@ -258,7 +284,7 @@ app.get('/paste/admin', function(req, res){
     var responseString = "";
     var get_password = req.query['password'];
     if(get_password == password) {
-      res.write('<html>');
+      res.write('<html><body background="/paste/background.png">');
       mysql_connection.getConnection(function(err,connection) {
         mysql_connection.query('select * from paste order by num desc;', function(err, rows) { 
             if (!err)  {
@@ -284,7 +310,7 @@ app.get('/paste/body', function(req, res){
     var data = "";
     var responseString = "";
 
-    res.write('<html><p align=center><img src=/paste/whats.png></p>'
+    res.write('<html><body background="/paste/background.png"><p align=center><img src=/paste/whats.png></p>'
         + '<p align=left>'
         );
     mysql_connection.getConnection(function(err,connection) {
@@ -334,6 +360,10 @@ app.get('/paste/caring.png', function(req, res){
 
 app.get('/paste/edit.png', function(req, res){
     res.sendFile(__dirname + '/edit.png');
+});
+
+app.get('/paste/background.png', function(req, res){
+    res.sendFile(__dirname + '/background.png');
 });
 
 app.get('/paste/from.png', function(req, res){
