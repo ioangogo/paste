@@ -2,7 +2,7 @@ FROM ubuntu
 RUN apt-get update;apt-get install -y nodejs npm
 EXPOSE 8080
 ENV PORT 8080
-ENV SITE_NAME "http://docker/paste"
+ENV SITE_NAME "http://docker/blog"
 ENV PASSWORD "paste"
 ENV MYSQL_URI "mysql://root:sql@mysql:3306/"
 ADD * /

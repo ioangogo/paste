@@ -64,7 +64,7 @@ var mini_begin_share_message = ( '<html> <head> <link rel="stylesheet" href="//c
     + '  });'
     + ' </script>'
     + '</head>'
-    + '<body background="/paste/background.png">'
+    + '<body background="/blog/background.png">'
     + ' <div id="resizable" class="ui-widget-content">'
     );
 
@@ -78,16 +78,16 @@ var begin_share_message = ( '<html> <head> <link rel="stylesheet" href="//code.j
     + '  });'
     + ' </script>'
     + '</head>'
-    + '<body background="/paste/background.png">'
-    + '<p align=center><a href="/"><img src="/paste/logo.png"></a></p>'
-//+ '<p align=center><a href="https://github.com/rusher81572/paste"><img src="/paste/caring.png"></a></p>'
+    + '<body background="/blog/background.png">'
+    + '<p align=center><a href="/"><img src="/blog/logo.png"></a></p>'
+//+ '<p align=center><a href="https://github.com/rusher81572/paste"><img src="/blog/caring.png"></a></p>'
 + ' <div id="resizable" class="ui-widget-content">'
 );
 
 var end_share_mesage = ( '</div></p></body></html>'
     );
 
-app.get('/paste/submitedit', function(req, res){
+app.get('/blog/submitedit', function(req, res){
   var paste_data = req.query['text'];
   var id = req.query['id'];
 
@@ -104,7 +104,7 @@ app.get('/paste/submitedit', function(req, res){
   res.end(mini_begin_share_message + '<h3 class="ui-widget-header">Your blog post is ready to share!</h3>'+ 'Your blog has been edited:<br><br><a href="' + site_name + '/show?id=' + id + '">' + site_name  + '/show?id=' + id + '</a>' + end_share_mesage);
 });
 
-app.post('/paste/search', function(req, res){
+app.post('/blog/search', function(req, res){
     var what = '%' + req.body.what + '%';
     var safe_search = mysql.escape(what);
     var responseString = "";
@@ -123,7 +123,7 @@ app.post('/paste/search', function(req, res){
             connection.release();
             
             for (var i in data){
-                res.write(mini_begin_share_message + '<h3 class="ui-widget-header"><a href="' + site_name + '/show?id=' + data[i].id + '&Submit=View">' + data[i].id + '</a><a href="' + site_name + '/delete?id=' + data[i].id + '&Submit=View"><img src="/paste/delete.png" height="10" width="10"></a> <a href="' + site_name + '/edit?id=' + data[i].id + '&Submit=View"><img src="/paste/edit.png" height="10" width="10"></a></h3>' +  data[i].item + end_share_mesage);
+                res.write(mini_begin_share_message + '<h3 class="ui-widget-header"><a href="' + site_name + '/show?id=' + data[i].id + '&Submit=View">' + data[i].id + '</a><a href="' + site_name + '/delete?id=' + data[i].id + '&Submit=View"><img src="/blog/delete.png" height="10" width="10"></a> <a href="' + site_name + '/edit?id=' + data[i].id + '&Submit=View"><img src="/blog/edit.png" height="10" width="10"></a></h3>' +  data[i].item + end_share_mesage);
             }
             res.end('</html>');
         });
@@ -131,7 +131,7 @@ app.post('/paste/search', function(req, res){
 
 });
 
-app.post('/paste/newpaste', function(req, res){
+app.post('/blog/newpaste', function(req, res){
   var paste_data = req.body.text;
   var subject = req.body.subject;
   var length = 10;
@@ -157,14 +157,14 @@ res.end(mini_begin_share_message + '<h3 class="ui-widget-header">Your blog post 
 });
 
 
-app.get('/paste/new', function(req, res){
+app.get('/blog/new', function(req, res){
     var responseString = "";
     res.sendFile(__dirname + '/new.html');
 });
 
 
 
-app.get('/paste/edit', function(req, res){
+app.get('/blog/edit', function(req, res){
     var id = req.query['id'];
     data = "";
     mysql_connection.getConnection(function(err,connection) {
@@ -173,12 +173,12 @@ app.get('/paste/edit', function(req, res){
                 data = rows;
                 if(data.length > 0) {
                     res.end(mini_begin_share_message + '<h3 class="ui-widget-header"> Edit Blog Post: ' + rows[0].subject
-                        + '<form action="/paste/submitedit" id="usrform">'
+                        + '<form action="/blog/submitedit" id="usrform">'
                         + '<p align=center>'
                         + '<input type="hidden" name="id" value="' + rows[0].id + '">'
                         + '<textarea rows="20" cols="100" name="text" form="usrform">' + rows[0].item + '</textarea>'
                         + '<p align=center>'
-                        + '<input type="submit"></form>'
+                        + '<input type="image" src="/blog/post.png"/></form>'
                         + end_share_mesage);
                 } else {
                  res.end(begin_share_message + '<h3 class="ui-widget-header">Error, paste does not exist!</h3>'+  end_share_mesage);
@@ -193,7 +193,7 @@ app.get('/paste/edit', function(req, res){
 });
 
 
-app.get('/paste/show', function(req, res){
+app.get('/blog/show', function(req, res){
     var id = req.query['id'];
     data = "";
     mysql_connection.getConnection(function(err,connection) {
@@ -214,7 +214,7 @@ app.get('/paste/show', function(req, res){
     });
 });
 
-app.get('/paste/delete', function(req, res){
+app.get('/blog/delete', function(req, res){
     var id = req.query['id'];
     data = "";
     mysql_connection.getConnection(function(err,connection) {
@@ -231,17 +231,17 @@ app.get('/paste/delete', function(req, res){
     });
 });
 
-app.get('/paste/login', function(req, res){
-    res.end('<html><body background="/paste/background.png"><title>Blog Admin Console!</title><head>'
+app.get('/blog/login', function(req, res){
+    res.end('<html><body background="/blog/background.png"><title>Blog Admin Console!</title><head>'
         + '<link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/cupertino/jquery-ui.css">'
         + '<script src="//code.jquery.com/jquery-1.10.2.js"></script>'
         + '<script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>'
         + '<script> $(function() { $( "#start" ).dialog();});'
-        + 'function login(){window.location = "/paste/auth" }'
+        + 'function login(){window.location = "/blog/auth" }'
         + '</script></head><body>'
-        + '<p align=center><a href="/"><img src="/paste/logo.png"></a></p>'
+        + '<p align=center><a href="/"><img src="/blog/logo.png"></a></p>'
         + '<div id="start" title="Blog Admin Console"><p align=left>Enter password to continue<br>'
-        + '<form method="get" action="/paste/auth"><input type="text" name="password">'
+        + '<form method="get" action="/blog/auth"><input type="text" name="password">'
         + '<input type="submit" onclick="login()"><br> </form></p> </body> </html>');
 });
 
@@ -250,37 +250,37 @@ app.get('/', function(req, res){
     res.sendFile(__dirname + '/index.html');
 });
 
-app.get('/paste/auth', function(req, res){
+app.get('/blog/auth', function(req, res){
    var get_password = req.query['password'];
    if(get_password == password) {
-    res.end('<html><title>Paste Admin Console!</title><head><p align=center><a href="/"><img src="/paste/logo.png"></a></p>'
-        + '</head><body background="/paste/background.png"><p align=center>'
+    res.end('<html><title>Paste Admin Console!</title><head><p align=center><a href="/"><img src="/blog/logo.png"></a></p>'
+        + '</head><body background="/blog/background.png"><p align=center>'
         + '<html><p align=center>'
         + ' <table style="width:10%"><tr></form></td>'
-        + '</td><td><form action="/paste/admin" target="iframe_a">'
+        + '</td><td><form action="/blog/admin" target="iframe_a">'
         + '<input type="hidden" name="password" value="' + password + '">'
-        + '<input type="image" src="/paste/home.png" value="Home"/>'
+        + '<input type="image" src="/blog/home.png" value="Home"/>'
         + '</form></td>'
-      //  + '</td><td><form action="/paste/searchadmin" target="iframe_a">'
+      //  + '</td><td><form action="/blog/searchadmin" target="iframe_a">'
       //  + '<input type="hidden" name="password" value="' + password + '">'
-       // + '<input type="image" src="/paste/search.png" value="Search"/>'
+       // + '<input type="image" src="/blog/search.png" value="Search"/>'
        // + '</form></td>'
-        + '<td><form action="/paste/new" target="iframe_a">'
-        + '<input type="image" src="/paste/newpost.png" value="Home"/>'
+        + '<td><form action="/blog/new" target="iframe_a">'
+        + '<input type="image" src="/blog/newpost.png" value="Home"/>'
         + '</form></td>'
         + '</table>'
-        + '<IFRAME SRC="/paste/admin?password=' + password + '" name="iframe_a" WIDTH=1200 HEIGHT=1000></html>');
+        + '<IFRAME SRC="/blog/admin?password=' + password + '" name="iframe_a" WIDTH=1200 HEIGHT=1000></html>');
 } else {
    res.end(mini_begin_share_message + '<h3 class="ui-widget-header">Invalid Password!</h3>' + end_share_mesage);
 }
 });
 
-app.get('/paste/admin', function(req, res){
+app.get('/blog/admin', function(req, res){
     var data = "";
     var responseString = "";
     var get_password = req.query['password'];
     if(get_password == password) {
-      res.write('<html><body background="/paste/background.png">');
+      res.write('<html><body background="/blog/background.png">');
       mysql_connection.getConnection(function(err,connection) {
         mysql_connection.query('select * from paste order by num desc;', function(err, rows) { 
             if (!err)  {
@@ -291,7 +291,7 @@ app.get('/paste/admin', function(req, res){
             }
             connection.release();
             for (var i in data){
-                res.write(mini_begin_share_message + '<h3 class="ui-widget-header">' + data[i].subject + '<a href="' + site_name + '/delete?id=' + data[i].id + '&Submit=View"><img src="/paste/delete.png" height="10" width="10"></a> <a href="' + site_name + '/edit?id=' + data[i].id + '&Submit=View"><img src="/paste/edit.png" height="10" width="10"></a></h3>' +  data[i].item + end_share_mesage);
+                res.write(mini_begin_share_message + '<h3 class="ui-widget-header">' + data[i].subject + '<a href="' + site_name + '/delete?id=' + data[i].id + '&Submit=View"><img src="/blog/delete.png" height="10" width="10"></a> <a href="' + site_name + '/edit?id=' + data[i].id + '&Submit=View"><img src="/blog/edit.png" height="10" width="10"></a></h3>' +  data[i].item + end_share_mesage);
             }
             res.end('</html>');
         });
@@ -302,11 +302,11 @@ app.get('/paste/admin', function(req, res){
 });
 
 
-app.get('/paste/body', function(req, res){
+app.get('/blog/body', function(req, res){
     var data = "";
     var responseString = "";
 
-    res.write('<html><body background="/paste/background.png">'
+    res.write('<html><body background="/blog/background.png">'
         + '<p align=left>'
         );
     mysql_connection.getConnection(function(err,connection) {
@@ -329,41 +329,44 @@ app.get('/paste/body', function(req, res){
 });
 
 
-app.get('/paste/new.html', function(req, res){
+app.get('/blog/new.html', function(req, res){
     res.sendFile(__dirname + '/new.html');
 });
 
-app.get('/paste/search', function(req, res){
+app.get('/blog/search', function(req, res){
     res.sendFile(__dirname + '/search.html');
 });
 
-app.get('/paste/logo.png', function(req, res){
+app.get('/blog/logo.png', function(req, res){
     res.sendFile(__dirname + '/logo.png');
 });
 
-app.get('/paste/delete.png', function(req, res){
+app.get('/blog/delete.png', function(req, res){
     res.sendFile(__dirname + '/delete.png');
 });
 
-app.get('/paste/edit.png', function(req, res){
+app.get('/blog/edit.png', function(req, res){
     res.sendFile(__dirname + '/edit.png');
 });
 
-app.get('/paste/home.png', function(req, res){
+app.get('/blog/home.png', function(req, res){
     res.sendFile(__dirname + '/home.png');
 });
 
-app.get('/paste/search.png', function(req, res){
+app.get('/blog/search.png', function(req, res){
     res.sendFile(__dirname + '/search.png');
 });
-app.get('/paste/home.png', function(req, res){
+app.get('/blog/home.png', function(req, res){
     res.sendFile(__dirname + '/home.png');
 });
-app.get('/paste/newpost.png', function(req, res){
+app.get('/blog/post.png', function(req, res){
+    res.sendFile(__dirname + '/post.png');
+});
+app.get('/blog/newpost.png', function(req, res){
     res.sendFile(__dirname + '/newpost.png');
 });
 
-app.get('/paste/login.png', function(req, res){
+app.get('/blog/login.png', function(req, res){
     res.sendFile(__dirname + '/login.png');
 });
 
