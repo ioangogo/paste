@@ -6,7 +6,7 @@ A simple blog application for Node.js built from the Paste code. It requires a M
 
 # Screenshot
 
-![Graph](http://i.imgur.com/XBwZMFf.png)
+![Graph](http://i.imgur.com/FmIT3XL.png)
 
 # How to run in Docker
 
