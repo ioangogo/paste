@@ -337,6 +337,10 @@ app.get('/paste/new.html', function(req, res){
     res.sendFile(__dirname + '/new.html');
 });
 
+app.get('/paste/search', function(req, res){
+    res.sendFile(__dirname + '/search.html');
+});
+
 app.get('/paste/logo.png', function(req, res){
     res.sendFile(__dirname + '/logo.png');
 });
