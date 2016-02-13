@@ -14,7 +14,6 @@ var mysql_connection = mysql.createPool(dbURL + database);
 var mysql_connection_create = mysql.createPool(dbURL);
 var password = process.env.PASSWORD;
 var site_name = process.env.SITE_NAME;
-
 createdb(createdb_async);
 
 function createdb_async(data) {
@@ -25,37 +24,6 @@ function createtable_async(data) {
     console.log(data);
 }
 
-function sampledata_async(data) {
-    console.log(data);
-}
-
-
-//This is for demo purposes only so there will be at least 1 blog post when deployed
-function sampledata(callback){
-  var subject = 'Welcome to the Paste Blogging Framework';
-  var paste_data = 'This application provides a simple blogging interface for people to play with.';
-  var length = 10;
-  var id = "";
-
-  var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-  for(var i = 0; i < length; i++) {
-    id += possible.charAt(Math.floor(Math.random() * possible.length));
-}
-
-mysql_connection.getConnection(function(err,connection) {
-    var safe_paste_data = mysql.escape(paste_data);
-    var safe_subject_data = mysql.escape(subject);
-    mysql_connection.query("insert into paste (id,item,subject) values('" + id + "'," + safe_paste_data + "," + safe_subject_data + ");", function(err,rows) {
-        if(err) {
-            console.log('Error sending paste data', err);
-        }
-        connection.release();
-    });
-});
-
-}
-// End sample blog post
-
 function createdb(callback){
     mysql_connection_create.getConnection(function(err,connection) {
      mysql_connection_create.query("create database " + database + ";", function(err, rows) {
@@ -64,7 +32,6 @@ function createdb(callback){
         }
         connection.release();
         createtable(createtable_async);
-        sampledata();
         callback('Creating Database.....');
     });
  });
@@ -81,15 +48,6 @@ function createtable(callback){
         });
     });
 }
-
-function createdb_async(data) {
-    console.log(data);
-}
-
-function createtable_async(data) {
-    console.log(data);
-}
-
 
 var defaultHTML = (
     '<html>'
@@ -150,7 +108,7 @@ app.post('/paste/search', function(req, res){
     var what = '%' + req.body.what + '%';
     var safe_search = mysql.escape(what);
     var responseString = "";
-    res.write('<html><p align=center><img src=/paste/whats.png></p>'
+    res.write('<html>'
         + '<p align=left>'
         );
     
@@ -281,6 +239,7 @@ app.get('/paste/login', function(req, res){
         + '<script> $(function() { $( "#start" ).dialog();});'
         + 'function login(){window.location = "/paste/auth" }'
         + '</script></head><body>'
+        + '<p align=center><a href="/"><img src="/paste/logo.png"></a></p>'
         + '<div id="start" title="Blog Admin Console"><p align=left>Enter password to continue<br>'
         + '<form method="get" action="/paste/auth"><input type="text" name="password">'
         + '<input type="submit" onclick="login()"><br> </form></p> </body> </html>');
@@ -347,7 +306,7 @@ app.get('/paste/body', function(req, res){
     var data = "";
     var responseString = "";
 
-    res.write('<html><body background="/paste/background.png"><p align=center><img src=/paste/whats.png></p>'
+    res.write('<html><body background="/paste/background.png">'
         + '<p align=left>'
         );
     mysql_connection.getConnection(function(err,connection) {
@@ -380,10 +339,6 @@ app.get('/paste/search', function(req, res){
 
 app.get('/paste/logo.png', function(req, res){
     res.sendFile(__dirname + '/logo.png');
-});
-
-app.get('/paste/whats.png', function(req, res){
-    res.sendFile(__dirname + '/whats.png');
 });
 
 app.get('/paste/delete.png', function(req, res){
