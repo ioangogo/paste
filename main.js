@@ -27,7 +27,7 @@ function createtable_async(data) {
 
 function createdb(callback){
     mysql_connection_create.getConnection(function(err,connection) {
-     mysql_connection_create.query("create database " + database + ";", function(err, rows) {
+       mysql_connection_create.query("create database " + database + ";", function(err, rows) {
         if(err) {
             console.log('Error creating database', err);
         }
@@ -35,7 +35,7 @@ function createdb(callback){
         createtable(createtable_async);
         callback('Creating Database.....');
     });
- });
+   });
 }
 
 function createtable(callback){
@@ -100,6 +100,8 @@ var end_share_mesage = ( '</div></p></body></html>'
 app.get('/paste/submitedit', function(req, res){
   var paste_data = req.query['text'];
   var id = req.query['id'];
+  
+  paste_data = paste_data.replace(/(?:\r\n|\r|\n)/g, '<br />');
 
   mysql_connection.getConnection(function(err,connection) {
     var safe_paste_data = mysql.escape(paste_data);
@@ -124,6 +126,7 @@ app.post('/paste/newpaste', function(req, res){
   for(var i = 0; i < length; i++) {
     id += possible.charAt(Math.floor(Math.random() * possible.length));
 }
+paste_data = paste_data.replace(/(?:\r\n|\r|\n)/g, '<br />');
 
 mysql_connection.getConnection(function(err,connection) {
     var safe_paste_data = mysql.escape(paste_data);
@@ -162,9 +165,9 @@ app.get('/paste/edit', function(req, res){
                         + '<input type="submit"></form>'
                         + end_share_mesage);
                 } else {
-                 res.end(begin_share_message + '<h3 class="ui-widget-header">Error, paste does not exist!</h3>'+  end_share_mesage);
-             }
-         }else {
+                   res.end(begin_share_message + '<h3 class="ui-widget-header">Error, paste does not exist!</h3>'+  end_share_mesage);
+               }
+           }else {
             data =  "An error has occurred.";
             console.log(err);
         }
@@ -212,9 +215,9 @@ app.get('/paste/show', function(req, res){
                     res.end(begin_share_message + '<h3 class="ui-widget-header">Viewing Paste: <a href="' + site_name + '/show?id=' + rows[0].id + '&Submit=View">' + rows[0].id + '</a><a href="' + site_name + '/delete?id=' + rows[0].id + '&Submit=View"><img src="/paste/delete.png" height="10" width="10"></a> <a href="' + site_name + '/edit?id=' + rows[0].id + '&Submit=View"><img src="/paste/edit.png" height="10" width="10"></a></h3>' +  rows[0].item + end_share_mesage);
 
                 } else {
-                 res.end(begin_share_message + '<h3 class="ui-widget-header">Error, paste does not exist!</h3>'+  end_share_mesage);
-             }
-         }else {
+                   res.end(begin_share_message + '<h3 class="ui-widget-header">Error, paste does not exist!</h3>'+  end_share_mesage);
+               }
+           }else {
             data =  "An error has occurred.";
             console.log(err);
         }
