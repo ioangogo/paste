@@ -146,6 +146,8 @@ app.post('/blog/newpaste', function(req, res){
     id += possible.charAt(Math.floor(Math.random() * possible.length));
 }
 
+paste_data = paste_data.replace(/(?:\r\n|\r|\n)/g, '<br />');
+
 mysql_connection.getConnection(function(err,connection) {
     var safe_paste_data = mysql.escape(paste_data);
     var safe_subject_data = mysql.escape(subject);
