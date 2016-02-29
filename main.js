@@ -91,6 +91,8 @@ app.get('/blog/submitedit', function(req, res){
   var paste_data = req.query['text'];
    var subject_data = req.query['subject'];
   var id = req.query['id'];
+  
+paste_data = paste_data.replace(/(?:\r\n|\r|\n)/g, '<br />');
 
   mysql_connection.getConnection(function(err,connection) {
     var safe_paste_data = mysql.escape(paste_data);
