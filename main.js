@@ -55,7 +55,7 @@ var defaultHTML = (
     );
 
 
-var mini_begin_share_message = ( '<html> <head> <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/cupertino/jquery-ui.css">'
+var mini_begin_share_message = ( '<html> <head> <meta charset="utf-8"/> <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/cupertino/jquery-ui.css">'
     + '<script src="//code.jquery.com/jquery-1.10.2.js"></script>'
     + ' <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>'
     + '<link rel="stylesheet" href="/resources/demos/style.css">'
@@ -69,7 +69,7 @@ var mini_begin_share_message = ( '<html> <head> <link rel="stylesheet" href="//c
     + ' <div id="resizable" class="ui-widget-content">'
     );
 
-var begin_share_message = ( '<html> <head> <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/cupertino/jquery-ui.css">'
+var begin_share_message = ( '<html> <head> <meta charset="utf-8"/> <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/cupertino/jquery-ui.css">'
     + '<script src="//code.jquery.com/jquery-1.10.2.js"></script>'
     + ' <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>'
     + '<link rel="stylesheet" href="/resources/demos/style.css">'
@@ -179,7 +179,7 @@ app.get('/blog/edit', function(req, res){
             if (!err)  {
                 data = rows;
                 if(data.length > 0) {
-                    res.end('<head><meta charset="utf-8"/></head>' + mini_begin_share_message + '<h3 class="ui-widget-header"> Edit Blog Post: ' + rows[0].subject
+                    res.end(mini_begin_share_message + '<h3 class="ui-widget-header"> Edit Blog Post: ' + rows[0].subject
                         + '<form action="/blog/submitedit" id="usrform">'
                         + '<p align=center>'
                         + '<input type="hidden" name="id" value="' + rows[0].id + '">'
@@ -210,7 +210,7 @@ app.get('/blog/show', function(req, res){
             if (!err)  {
                 data = rows;
                 if(data.length > 0) {
-                    res.end(begin_share_message + '<head><meta charset="utf-8"/></head><h3 class="ui-widget-header"><a href="' + site_name + '/show?id=' + rows[0].id + '&Submit=View">' + rows[0].subject + '</a></h3>' +  rows[0].item + end_share_mesage);
+                    res.end(begin_share_message + '<h3 class="ui-widget-header"><a href="' + site_name + '/show?id=' + rows[0].id + '&Submit=View">' + rows[0].subject + '</a></h3>' +  rows[0].item + end_share_mesage);
                 } else {
                  res.end(begin_share_message + '<h3 class="ui-widget-header">Error, blog post does not exist!</h3>'+  end_share_mesage);
              }
