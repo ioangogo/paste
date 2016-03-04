@@ -1,18 +1,29 @@
 #!/bin/bash
 endpoint='http://my-docker-machine-ip/paste'
+
 data=$1
 clear
 echo "Pasting....."
 if [[ $1 == *"-f"* ]]
 then
-	echo "Sending File: $2";echo	
+	echo "Pasting File: $2";echo	
 	curl -s -X POST --data-urlencode text@$2 $endpoint/newpaste | cut -d ":" -f4  
 	echo;echo
-else
-	echo "Pasting output of command: $1";echo
-        eval $1 > log.txt	
+fi	
+
+if [[ $1 == *"-c"* ]]
+then
+echo "Pasting Command Output: $2";echo
+        eval $2 > log.txt	
 	curl -s -X POST --data-urlencode text@log.txt $endpoint/newpaste | cut -d ":" -f4
 	rm -f log.txt
 	echo;echo
+fi
+
+if [[ $1 == *"-t"* ]]
+then
+echo "Pasting text: $2";echo
+        curl -s -X POST --data-urlencode "text=$2" $endpoint/newpaste | cut -d ":" -f4
+        echo;echo
 fi
 
